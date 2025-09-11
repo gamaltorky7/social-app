@@ -4,8 +4,9 @@ import { useParams } from 'react-router'
 import defPhoto from '../../assets/default-profile.png';
 import { useQuery } from '@tanstack/react-query';
 import Loading from '../../component/Loading/Loading';
-import CommentOption from '../../component/CommentOption/Commentoption';
+// import CommentOption from '../../component/CommentOption/Commentoption';
 import { UserContext } from '../../Context/UserContext';
+import CommentOption from './../../component/CommentOption/CommentOption';
 
 
 export default function PostDetails() {
