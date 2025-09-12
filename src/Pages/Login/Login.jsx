@@ -49,7 +49,7 @@ export default function Login() {
     <div className="gap-10 flex-col py-28   md:flex min-h-screen justify-center items-center  lg:flex-row lg:gap-20 lg:py-0 lg:px-0 lg:min-h-screen lg:justify-center lg:items-center lg:mx-auto lg:max-w-6xl">
 
       <div className="w-full mx-auto mb-5 md:mb-0 text-center">
-        <h1 className="text-gray-800 lg: fa-4x font-bold  ">Keep Contact</h1>
+        <h1 className="text-gray-800 lg: fa-4x font-bold dark:text-white ">Keep Contact</h1>
         <p className="text-zinc-600 fa-2x">Connect with friends and the world around you on Keep Contact</p>
       </div>
     
