@@ -1,17 +1,18 @@
 import axios from 'axios'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { UserContext } from '../Context/UserContext'
+import toast from 'react-hot-toast'
 
 
 export default function EditProfile() {
    let{getUser}= useContext(UserContext)
     let {register , handleSubmit} = useForm()
+    let [loading , setloading] = useState(false)
     
     async function uploadImage(value) {
-
-      // console.log(value);
       
+      setloading(true)
         let formdata = new FormData()
         formdata.append("photo", value.photo[0])
         let {data} = await axios.put(`https://linked-posts.routemisr.com/users/upload-photo`, formdata, {
@@ -22,11 +23,18 @@ export default function EditProfile() {
     // console.log(data);
     if(data.message == "success"){
         getUser()
+        toast.success('photo changed successufly')
+        window.location.reload()
+        setloading(false)
+    }
+    else{
+        toast.error('choose image')
+        setloading(false)
     }
     
     }
   return (
-    <div className='pt-28 '>
+    <div className='py-28 '>
       <form onSubmit={handleSubmit(uploadImage)} className="w-full max-w-lg mx-auto mt-10 ">
         
         <div className="flex items-center justify-center w-full">
@@ -42,7 +50,7 @@ export default function EditProfile() {
             </label>
         </div> 
 
-        <button type="submit" className="my-6 py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-gray-300 rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Upload your photo</button>
+        <button type="submit" className="w-full my-6 py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-gray-300 rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">{loading ? <i className="fa-solid fa-spinner fa-spin"></i> : "Upload your photo"} </button>
       </form>
     </div>
   )

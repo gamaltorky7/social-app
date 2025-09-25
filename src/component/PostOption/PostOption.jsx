@@ -2,7 +2,6 @@ import React, { use, useEffect, useRef } from 'react'
 import { initFlowbite } from 'flowbite'
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { set } from 'zod';
 import { useForm } from 'react-hook-form';
 
 
@@ -29,19 +28,22 @@ export default function PostOption({ postId , refetch }) {
         } 
     }
 
-    function handleUpdate( obj ){
+   async function handleUpdate( obj ){
         let formdata = new FormData()
-        formdata.append("body", obj.body)
-        formdata.append("image", fileinput.current.files[0])
-        let {data} = axios.put(`https://linked-posts.routemisr.com/posts/${postId}`, formdata, {
+        {obj.body && formdata.append("body", obj.body)}
+        {fileinput.current.files[0] && formdata.append("image", fileinput.current.files[0])}
+        
+        let {data} = await axios.put(`https://linked-posts.routemisr.com/posts/${postId}`, formdata, {
             headers: {
                 token: localStorage.getItem("token"),
             },
         })
+        
         if (data.message == "success") {
             toast.success("Post updated successfully");
             refetch();
         }
+        else toast.error('some thing wrong')
     }
 
   return (
@@ -55,11 +57,11 @@ export default function PostOption({ postId , refetch }) {
 
         <div id={"dropdown"+ postId} className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
             <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
-                <li data-modal-target="default-modal" data-modal-toggle="default-modal" onClick={handleUpdate} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                <li data-modal-target="default-modal" data-modal-toggle="default-modal" onClick={handleUpdate} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:cursor-pointer">
                   <i className="fa-solid fa-pen-to-square mx-2 text-blue-800"></i>  Update
                 </li>
 
-                <li onClick={handleDelete} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                <li onClick={handleDelete} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:cursor-pointer">
                   <i className="fa-solid fa-trash mx-2  text-red-700"></i>  Delete
                 </li>
            
